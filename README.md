@@ -16,21 +16,9 @@
 
 ## Installation
 
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/gamoutatsumi/mpd-mcp-server.git
-   cd mpd-mcp-server
-   ```
-
-2. Install the required dependencies:
-   ```bash
-   go mod tidy
-   ```
-
-3. Build the server:
-   ```bash
-   go build -o mpd-mcp-server
-   ```
+```bash
+$ go install github.com/gamoutatsumi/mpd-mcp-server@latest
+```
 
 ## Usage
 
