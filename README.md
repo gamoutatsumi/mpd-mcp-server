@@ -17,25 +17,19 @@
 ## Installation
 
 ```bash
-$ go install github.com/gamoutatsumi/mpd-mcp-server@latest
+go install github.com/gamoutatsumi/mpd-mcp-server@latest
 ```
 
 ## Usage
 
-1. Start the MPD server.
+```bash
+# Set environment variables (if needed)
+export MPD_SERVER=localhost
+export MPD_PORT=6600
 
-2. Set environment variables (if needed):
-   ```bash
-   export MPD_SERVER=localhost
-   export MPD_PORT=6600
-   ```
-
-3. Start the server:
-   ```bash
-   ./mpd-mcp-server
-   ```
-
-4. Use an MCP client to call the tools.
+# Start the server
+mpd-mcp-server
+```
 
 ## Available Tools
 
