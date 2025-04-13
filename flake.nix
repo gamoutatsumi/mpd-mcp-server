@@ -1,32 +1,15 @@
 {
-  description = "Default Flake";
+  description = "MCP Server for Music Player Daemon (MPD)";
 
   inputs = {
     # keep-sorted start block=yes
-    fenix = {
-      url = "https://flakehub.com/f/nix-community/fenix/0.1.*";
-      inputs = {
-        nixpkgs = {
-          follows = "nixpkgs";
-        };
-      };
-    };
     flake-checker = {
       url = "github:DeterminateSystems/flake-checker";
       inputs = {
         nixpkgs = {
           follows = "nixpkgs";
         };
-        fenix = {
-          follows = "fenix";
-        };
-        naersk = {
-          follows = "naersk";
-        };
       };
-    };
-    flake-compat = {
-      url = "github:edolstra/flake-compat";
     };
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
@@ -36,33 +19,16 @@
         };
       };
     };
-    naersk = {
-      url = "https://flakehub.com/f/nix-community/naersk/0.1.*";
-      inputs = {
-        nixpkgs = {
-          follows = "nixpkgs";
-        };
-      };
-    };
     nixpkgs = {
-      url = "github:NixOS/nixpkgs/nixos-24.11";
-    };
-    nixpkgs-unstable = {
       url = "github:NixOS/nixpkgs/nixos-unstable";
     };
     pre-commit-hooks = {
       url = "github:cachix/git-hooks.nix";
       inputs = {
         nixpkgs = {
-          follows = "nixpkgs-unstable";
-        };
-        flake-compat = {
-          follows = "flake-compat";
+          follows = "nixpkgs";
         };
       };
-    };
-    systems = {
-      url = "github:nix-systems/default";
     };
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
@@ -106,15 +72,9 @@
             treefmtBuild = config.treefmt.build;
           in
           {
-            _module = {
-              args = {
-                pkgs = import inputs.nixpkgs-unstable {
-                  inherit system;
-                  config = {
-                    allowUnfree = true;
-                  };
-                };
-              };
+            packages = {
+              mpd-mcp-server = pkgs.callPackage ./package.nix { };
+              default = pkgs.callPackage ./package.nix { };
             };
             checks = config.packages;
             devShells = {
@@ -129,6 +89,10 @@
                 packages = with pkgs; [
                   nil
                   efm-langserver
+                  go
+                  gopls
+                  nodejs
+                  pnpm
                 ];
                 inputsFrom =
                   lib.optionals (inputs.pre-commit-hooks ? flakeModule) [ config.pre-commit.devShell ]
@@ -149,6 +113,9 @@
                     enable = true;
                     package = flake-checker.packages.${system}.flake-checker;
                   };
+                  staticcheck = {
+                    enable = true;
+                  };
                   treefmt = {
                     enable = true;
                     packageOverrides = {
@@ -168,6 +135,9 @@
               programs = {
                 # keep-sorted start block=yes
                 deadnix = {
+                  enable = true;
+                };
+                goimports = {
                   enable = true;
                 };
                 keep-sorted = {

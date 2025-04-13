@@ -1,2 +1,4 @@
 .pre-commit-config.yaml
 .direnv
+mpd-mcp-server
+result
