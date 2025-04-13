@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/fhs/gompd/v2/mpd"
@@ -13,7 +14,7 @@ import (
 
 var version string
 
-func main() {
+func newServer() *server.MCPServer {
 	s := server.NewMCPServer("mpd-mcp-server", version, server.WithResourceCapabilities(true, true), server.WithLogging())
 
 	searchTool := mcp.NewTool("search",
@@ -72,9 +73,27 @@ func main() {
 	s.AddTool(getPlaylistTool, getPlaylistHandler)
 	s.AddTool(clearPlaylistTool, clearPlaylistHandler)
 	s.AddTool(addPlaylistTool, addPlaylistHandler)
+	return s
 
+}
+
+func run() error {
+	mpdClient, err := connectMPD()
+	if err != nil {
+		return err
+	}
+	mpdClient.Close()
+
+	s := newServer()
 	if err := server.ServeStdio(s); err != nil {
-		fmt.Printf("failed to serve: %v\n", err)
+		return err
+	}
+	return nil
+}
+
+func main() {
+	if err := run(); err != nil {
+		log.Fatalf("Error: %v", err)
 	}
 }
 
