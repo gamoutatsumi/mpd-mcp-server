@@ -8,13 +8,13 @@ import (
 	"os"
 
 	"github.com/fhs/gompd/v2/mpd"
+	"github.com/harakeishi/curver"
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
 )
 
-var version string
-
 func newServer() *server.MCPServer {
+	version := curver.GetVersion()
 	s := server.NewMCPServer("mpd-mcp-server", version, server.WithResourceCapabilities(true, true), server.WithLogging())
 
 	searchTool := mcp.NewTool("search",
