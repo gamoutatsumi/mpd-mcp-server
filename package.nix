@@ -16,5 +16,6 @@ buildGoModule {
     description = "MCP Server for Music Player Daemon (MPD)";
     homepage = "https://github.com/gamoutatsumi/mpd-mcp-server";
     license = lib.licenses.mit;
+    mainProgram = "mpd-mcp-server";
   };
 }
