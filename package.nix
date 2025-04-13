@@ -5,12 +5,12 @@ in
 buildGoModule {
   pname = "mpd-mcp-server";
   inherit version;
-  vendorHash = "sha256-pJbkwUiAGjGiKBYiP21Ifo/PIfdlBFbmVUMKehPs+f4=";
+  vendorHash = "sha256-yox4oz9VQlE8dolPmu4Sl91OjbPbv9ymSiBZIEOjD4I=";
   src = lib.cleanSource ./.;
   ldflags = [
     "-s"
     "-w"
-    "-X main.version=${version}"
+    "-X github.com/harakeishi/curver.Version=${version}"
   ];
   meta = {
     description = "MCP Server for Music Player Daemon (MPD)";
