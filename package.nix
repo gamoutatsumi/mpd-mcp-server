@@ -1,6 +1,6 @@
 { buildGoModule, lib }:
 let
-  version = "0.1.0";
+  version = "0.1.1";
 in
 buildGoModule {
   pname = "mpd-mcp-server";
@@ -10,7 +10,7 @@ buildGoModule {
   ldflags = [
     "-s"
     "-w"
-    "-X github.com/harakeishi/curver.Version=${version}"
+    "-X github.com/harakeishi/curver.Version=v${version}"
   ];
   meta = {
     description = "MCP Server for Music Player Daemon (MPD)";
